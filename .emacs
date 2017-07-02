@@ -4,6 +4,7 @@
               t)
 (require 'parenface)
 (set-face-foreground 'paren-face "DimGray")
+
 ;;;;;;;;;;;;
 ;; Scheme 
 ;;;;;;;;;;;;
