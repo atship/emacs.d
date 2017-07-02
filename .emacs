@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/paredit")
+(add-to-list 'load-path "~/.emacs.d/scheme")
 (autoload 'paredit-mode "paredit"
             "Minor mode for pseudo-structurally editing Lisp code."
               t)
