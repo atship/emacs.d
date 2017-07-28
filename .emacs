@@ -1,14 +1,16 @@
-(add-to-list 'load-path "~/.emacs.d/paredit")
+(add-to-list 'load-path "~/.emacs.d/scheme")
 (autoload 'paredit-mode "paredit"
             "Minor mode for pseudo-structurally editing Lisp code."
               t)
 (require 'parenface)
 (set-face-foreground 'paren-face "DimGray")
+
 ;;;;;;;;;;;;
 ;; Scheme 
 ;;;;;;;;;;;;
 
 (require 'cmuscheme)
+
 (setq scheme-program-name "scheme")         ;; 如果用 Petite 就改成 "petite"
 
 
@@ -63,8 +65,27 @@
   (comint-send-string (scheme-proc) "\n"))
 
 (add-hook 'scheme-mode-hook
-            (lambda ()
-	      (paredit-mode 1)
-	      (define-key scheme-mode-map (kbd "<f5>") 'scheme-send-file-split-window)
-                      (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
-                          (define-key scheme-mode-map (kbd "<f6>") 'scheme-send-definition-split-window)))
+          (lambda ()
+            (paredit-mode 1)
+            (define-key scheme-mode-map (kbd "<f5>") 'scheme-send-file-split-window)
+            (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
+            (define-key scheme-mode-map (kbd "<f6>") 'scheme-send-definition-split-window)))
+
+(setq inhibit-startup-message t) 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(line-number-mode t)
+ '(show-paren-mode t)
+ '(tool-bar-mode nil))
+
+(global-linum-mode t)
+(toggle-frame-fullscreen)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
