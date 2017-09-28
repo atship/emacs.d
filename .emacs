@@ -29,6 +29,7 @@
 ;;;;;;;;;;;;
 
 (require 'cmuscheme)
+(treemacs)
 
 (setq scheme-program-name "scheme")         ;; 如果用 Petite 就改成 "petite"
 
