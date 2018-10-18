@@ -1,9 +1,10 @@
 ;;; paredit.el --- minor mode for editing parentheses  -*- Mode: Emacs-Lisp -*-
 
-;; Copyright (C) 2005--2014 Taylor R. Campbell
+;; Copyright (C) 2005--2017 Taylor R. Campbell
 
-;; Author: Taylor R. Campbell
-;; Version: 24 (beta)
+;; Author: Taylor R. Campbell <campbell+paredit@mumble.net>
+;; Version: 25beta
+;; Package-Version: 20171127.205
 ;; Created: 2005-07-31
 ;; Keywords: lisp
 
@@ -25,16 +26,16 @@
 ;; along with paredit.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; The currently released version of paredit is available at
-;;;   <http://mumble.net/~campbell/emacs/paredit.el>.
+;;;   <https://mumble.net/~campbell/emacs/paredit.el>.
 ;;;
 ;;; The latest beta version of paredit is available at
-;;;   <http://mumble.net/~campbell/emacs/paredit-beta.el>.
+;;;   <https://mumble.net/~campbell/emacs/paredit-beta.el>.
 ;;;
 ;;; The Git repository for paredit is available at
-;;;   <http://mumble.net/~campbell/git/paredit.git>
+;;;   <https://mumble.net/~campbell/git/paredit.git>
 ;;;
 ;;; Release notes are available at
-;;;   <http://mumble.net/~campbell/emacs/paredit.release>.
+;;;   <https://mumble.net/~campbell/emacs/paredit.release>.
 
 ;;; Install paredit by placing `paredit.el' in `/path/to/elisp', a
 ;;; directory of your choice, and adding to your .emacs file:
@@ -47,7 +48,7 @@
 ;;; Start Paredit Mode on the fly with `M-x enable-paredit-mode RET',
 ;;; or always enable it in a major mode `M' (e.g., `lisp') with:
 ;;;
-;;;   (add-hook M-mode-hook 'enable-paredit-mode)
+;;;   (add-hook 'M-mode-hook 'enable-paredit-mode)
 ;;;
 ;;; Customize paredit using `eval-after-load':
 ;;;
@@ -122,7 +123,7 @@
 
 ;;; This assumes Unix-style LF line endings.
 
-(defconst paredit-version 24)
+(defconst paredit-version 25)
 (defconst paredit-beta-p t)
 
 (eval-and-compile
@@ -192,6 +193,9 @@ If point was on indentation, it stays in indentation."
 
 ;;;; Minor Mode Definition
 
+(defvar paredit-lighter " Paredit"
+  "Mode line lighter Paredit Mode.")
+
 (defvar paredit-mode-map (make-sparse-keymap)
   "Keymap for the paredit minor mode.")
 
@@ -208,7 +212,7 @@ Paredit behaves badly if parentheses are unbalanced, so exercise
   caution when forcing Paredit Mode to be enabled, and consider
   fixing unbalanced parentheses instead.
 \\<paredit-mode-map>"
-  :lighter " Paredit"
+  :lighter paredit-lighter
   ;; Setting `paredit-mode' to false here aborts enabling Paredit Mode.
   (if (and paredit-mode
            (not current-prefix-arg))
@@ -768,17 +772,16 @@ If such a comment exists, delete the comment (including all leading
   "List of predicates for whether to put space by delimiter at point.
 Each predicate is a function that is is applied to two arguments, ENDP
   and DELIMITER, and that returns a boolean saying whether to put a
-  space next to the delimiter -- before the delimiter if ENDP is false,
-  after the delimiter if ENDP is true.
+  space next to the delimiter -- before/after the delimiter if ENDP is
+  false/true, respectively.
 If any predicate returns false, no space is inserted: every predicate
   has veto power.
-Each predicate may assume that the point is not at the beginning of the
-  buffer, if ENDP is false, or at the end of the buffer, if ENDP is
-  true; and that the point is not preceded, if ENDP is false, or
-  followed, if ENDP is true, by a word or symbol constituent, a quote,
-  or the delimiter matching DELIMITER.
-Each predicate should examine only text before the point, if ENDP is
-  false, or only text after the point, if ENDP is true.")
+Each predicate may assume that the point is not at the beginning/end of
+  the buffer, and that the point is preceded/followed by a word
+  constituent, symbol constituent, string quote, or delimiter matching
+  DELIMITER, if ENDP is false/true, respectively.
+Each predicate should examine only text before/after the point if ENDP is
+  false/true, respectively.")
 
 (defun paredit-space-for-delimiter-p (endp delimiter)
   ;; If at the buffer limit, don't insert a space.  If there is a word,
@@ -961,7 +964,7 @@ If not in a string, act as `paredit-doublequote'; if not prefix argument
   ;; -- then delete the backslash to avoid a dangling escape.
   (let ((delete-p t))
     (unwind-protect
-        (let ((char (read-char "Character to escape: ")))
+        (let ((char (read-char "Character to escape: " t)))
           (if (not (eq char ?\^?))
               (progn (message "Character to escape: %c" char)
                      (insert char)
@@ -2154,7 +2157,15 @@ If the point is on an S-expression, such as a string or a symbol, not
       (delete-region (point) (scan-sexps (point) 1))
       (let* ((indent-start (point))
              (indent-end (save-excursion (insert sexps) (point))))
-        (indent-region indent-start indent-end nil)))))
+        ;; If the expression spans multiple lines, its indentation is
+        ;; probably broken, so reindent it -- but don't reindent
+        ;; anything that we didn't touch outside the expression.
+        ;;
+        ;; XXX What if the *column* of the starting point was preserved
+        ;; too?  Should we avoid reindenting in that case?
+        (if (not (eq (save-excursion (goto-char indent-start) (point-at-eol))
+                     (save-excursion (goto-char indent-end) (point-at-eol))))
+            (indent-region indent-start indent-end nil))))))
 
 ;;; The effects of convolution on the surrounding whitespace are pretty
 ;;; random.  If you have better suggestions, please let me know.
@@ -2245,6 +2256,7 @@ If in a string, move the opening double-quote forward by one
   S-expression and escape any intervening characters as necessary,
   without altering any indentation or formatting."
   (interactive "P")
+  (paredit-lose-if-not-in-sexp 'paredit-forward-slerp-sexp)
   (save-excursion
     (cond ((paredit-in-comment-p)
            (error "Invalid context for slurping S-expressions."))
