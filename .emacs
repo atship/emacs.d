@@ -23,13 +23,17 @@
                     (not (gnutls-available-p))))
        (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
   (add-to-list 'package-archives (cons "melpa" url) t))
+(add-to-list 'load-path "~/.emacs.d/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+(neotree-toggle)
 
 ;;;;;;;;;;;;
 ;; Scheme 
 ;;;;;;;;;;;;
 
 (require 'cmuscheme)
-(treemacs)
+;(treemacs)
 
 (setq scheme-program-name "scheme")         ;; 如果用 Petite 就改成 "petite"
 
@@ -98,7 +102,8 @@
  '(tool-bar-mode nil))
 
 (global-linum-mode t)
-(toggle-frame-fullscreen)
+;(toggle-frame-fullscreen)
+(toggle-frame-maximized)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
