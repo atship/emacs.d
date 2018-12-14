@@ -109,4 +109,4 @@
 (cond
  ((string-equal system-type "darwin")
   (toggle-frame-fullscreen))
- (else (toggle-frame-maximized)))
+ (t (toggle-frame-maximized)))
