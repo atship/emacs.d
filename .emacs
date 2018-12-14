@@ -23,6 +23,8 @@
                     (not (gnutls-available-p))))
        (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
   (add-to-list 'package-archives (cons "melpa" url) t))
+(add-to-list 'custom-theme-load-path "~/.emacs.d/")
+(load-theme 'monokai t)
 (add-to-list 'load-path "~/.emacs.d/neotree")
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
@@ -97,7 +99,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(line-number-mode t)
- '(package-selected-packages (quote (treemacs company)))
+ '(package-selected-packages (quote (neotree paredit company)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
