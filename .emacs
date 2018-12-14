@@ -104,8 +104,11 @@
  '(tool-bar-mode nil))
 
 (global-linum-mode t)
-;(toggle-frame-fullscreen)
-(toggle-frame-maximized)
+(cond
+ ((string-equal system-type "darwin")
+  (toggle-frame-fullscreen))
+ (else (toggle-frame-maximized)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
