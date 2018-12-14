@@ -5,6 +5,9 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(setq inhibit-startup-screen t
+      initial-buffer-choice  nil)
+
 (add-to-list 'auto-mode-alist
 	     '("\\.\\(?:cap\\|gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist
@@ -28,8 +31,6 @@
 (add-to-list 'load-path "~/.emacs.d/neotree")
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
-(neotree-toggle)
-
 ;;;;;;;;;;;;
 ;; Scheme 
 ;;;;;;;;;;;;
@@ -92,7 +93,7 @@
             (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
             (define-key scheme-mode-map (kbd "<f6>") 'scheme-send-definition-split-window)))
 
-(setq inhibit-startup-message t) 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -108,10 +109,3 @@
  ((string-equal system-type "darwin")
   (toggle-frame-fullscreen))
  (else (toggle-frame-maximized)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
