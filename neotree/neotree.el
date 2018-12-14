@@ -245,12 +245,12 @@ the mode-line format."
   :type 'boolean
   :group 'neotree)
 
-(defcustom neo-autorefresh nil
+(defcustom neo-autorefresh t
   "*If non-nil, the neotree buffer will auto refresh."
   :type 'boolean
   :group 'neotree)
 
-(defcustom neo-window-width 25
+(defcustom neo-window-width 30
   "*Specifies the width of the NeoTree window."
   :type 'integer
   :group 'neotree)
@@ -334,14 +334,14 @@ This variable is used in `neo-vc-for-node' when
   :type '(alist :key-type symbol
                 :value-type character))
 
-(defcustom neo-confirm-change-root 'yes-or-no-p
+(defcustom neo-confirm-change-root 'off-p
   "Confirmation asking for permission to change root if file was not found in root path."
   :type '(choice (function-item :tag "Verbose" yes-or-no-p)
                  (function-item :tag "Succinct" y-or-n-p)
                  (function-item :tag "Off" off-p))
   :group 'neotree-confirmations)
 
-(defcustom neo-confirm-create-file 'yes-or-no-p
+(defcustom neo-confirm-create-file 'off-p
   "Confirmation asking whether *NeoTree* should create a file."
   :type '(choice (function-item :tag "Verbose" yes-or-no-p)
                  (function-item :tag "Succinct" y-or-n-p)
@@ -376,7 +376,7 @@ This variable is used in `neo-vc-for-node' when
                  (function-item :tag "Off" off-p))
   :group 'neotree-confirmations)
 
-(defcustom neo-toggle-window-keep-p nil
+(defcustom neo-toggle-window-keep-p t
   "If not nil, not switch to *NeoTree* buffer when executing `neotree-toggle'."
   :type 'boolean
   :group 'neotree)
