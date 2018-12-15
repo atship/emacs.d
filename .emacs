@@ -82,10 +82,11 @@
 (add-hook 'scheme-mode-hook
           (lambda ()
             (paredit-mode 1)
+			(require 'rainbow-delimiters)
+			(rainbow-delimiters-mode)
             (define-key scheme-mode-map (kbd "<f5>") 'scheme-send-file-split-window)
             (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
             (define-key scheme-mode-map (kbd "<f6>") 'scheme-send-definition-split-window)))
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -93,7 +94,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
- '(package-selected-packages (quote (neotree paredit company)))
+ '(package-selected-packages (quote (neotree paredit chezscheme company)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
