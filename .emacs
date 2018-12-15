@@ -3,41 +3,33 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;; (package-initialize)
 
 (setq inhibit-startup-screen t
       initial-buffer-choice  nil)
 
-(add-to-list 'auto-mode-alist
-	     '("\\.\\(?:cap\\|gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode))
-(add-to-list 'auto-mode-alist
-	     '("\\(?:Brewfile\\|Buildfile\\|Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode))
 (add-to-list 'load-path "~/.emacs.d/scheme")
+(add-to-list 'load-path "~/.emacs.d/theme")
+(add-to-list 'load-path "~/.emacs.d/neotree")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/theme")
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+
 (autoload 'paredit-mode "paredit"
   "Minor mode for pseudo-structurally editing Lisp code."
   t)
 (require 'parenface)
-(set-face-foreground 'paren-face "DimGray")
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-idle-delay 0)
-
-(require 'package) ;; You might already have this line
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(add-to-list 'custom-theme-load-path "~/.emacs.d/")
-(load-theme 'monokai t)
-(add-to-list 'load-path "~/.emacs.d/neotree")
+(require 'spacemacs-dark-theme)
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 (neotree-toggle)
+
 ;;;;;;;;;;;;
 ;; Scheme 
 ;;;;;;;;;;;;
 
 (require 'cmuscheme)
-;(treemacs)
 
 (setq scheme-program-name "scheme")         ;; 如果用 Petite 就改成 "petite"
 
@@ -100,7 +92,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(line-number-mode t)
+ '(cua-mode t nil (cua-base))
  '(package-selected-packages (quote (neotree paredit company)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
@@ -110,3 +102,9 @@
  ((string-equal system-type "darwin")
   (toggle-frame-fullscreen))
  (t (toggle-frame-maximized)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro Medium" :foundry "outline" :slant normal :weight normal :height 98 :width normal)))))
