@@ -22,6 +22,8 @@
 (setq company-idle-delay 0)
 (require 'spacemacs-dark-theme)
 (require 'neotree)
+(require 'rainbow-delimiters)
+(rainbow-delimiters-mode)
 (global-set-key [f8] 'neotree-toggle)
 (neotree-toggle)
 
@@ -82,8 +84,7 @@
 (add-hook 'scheme-mode-hook
           (lambda ()
             (paredit-mode 1)
-			(require 'rainbow-delimiters)
-			(rainbow-delimiters-mode)
+            (load-file "~/.emacs.d/scheme/chezscheme-keywords.el")
             (define-key scheme-mode-map (kbd "<f5>") 'scheme-send-file-split-window)
             (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
             (define-key scheme-mode-map (kbd "<f6>") 'scheme-send-definition-split-window)))
