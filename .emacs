@@ -40,8 +40,8 @@
 (defun scheme-proc ()
   "Return the current Scheme process, starting one if necessary."
   (unless (and scheme-buffer
-	       (get-buffer scheme-buffer)
-	       (comint-check-proc scheme-buffer))
+        (get-buffer scheme-buffer)
+        (comint-check-proc scheme-buffer))
     (save-window-excursion
       (run-scheme scheme-program-name)))
   (or (scheme-get-process)
@@ -52,9 +52,9 @@
   (let ((self (selected-window)))
     (cond
      ((not (cl-find "*scheme*"
-		    (mapcar (lambda (w)  (buffer-name (window-buffer w)))
-			    (window-list))
-		    :test 'equal))
+        (mapcar (lambda (w)  (buffer-name (window-buffer w)))
+            (window-list))
+        :test 'equal))
       (setq ww (split-window-horizontally (floor (* 0.68 (window-width)))))
       (select-window ww)
       (switch-to-buffer "*scheme*")
@@ -64,7 +64,6 @@
   (interactive)
   (scheme-split-window)
   (scheme-send-last-sexp))
-
 
 (defun scheme-send-definition-split-window ()
   (interactive)
@@ -102,8 +101,8 @@
 (global-linum-mode t)
 (cond
  ((string-equal system-type "darwin")
-  (toggle-frame-fullscreen))
- (t (toggle-frame-maximized)))
+  (toggle-frame-fullscreen) (set-fontset-font "fontset-default" 'han "Monaco" nil 'prepend))
+ (t (toggle-frame-maximized) (set-fontset-font "fontset-default" 'han "Microsoft YaHei" nil 'prepend)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
