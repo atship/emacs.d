@@ -7,6 +7,10 @@
 
 (setq inhibit-startup-screen t
       initial-buffer-choice  nil)
+      
+(prefer-coding-system 'utf-8)
+(setq coding-system-for-read 'utf-8)
+(setq coding-system-for-write 'utf-8)
 
 (add-to-list 'load-path "~/.emacs.d/scheme")
 (add-to-list 'load-path "~/.emacs.d/theme")
