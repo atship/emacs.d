@@ -16,7 +16,10 @@
 (add-to-list 'load-path "~/.emacs.d/theme")
 (add-to-list 'load-path "~/.emacs.d/neotree")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/theme")
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+(setq backup-directory-alist
+      `((".*" . "~/.emacs.d/backup/")))
+(setq auto-save-file-name-transforms
+      `((".*" "~/.emacs.d/backup/" t)))
 
 (autoload 'paredit-mode "paredit"
   "Minor mode for pseudo-structurally editing Lisp code."
