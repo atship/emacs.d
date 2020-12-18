@@ -260,7 +260,7 @@ the mode-line format."
   :type 'boolean
   :group 'neotree)
 
-(defcustom neo-keymap-style 'concise
+(defcustom neo-keymap-style 'default
   "*The default keybindings for neotree-mode-map."
   :group 'neotree
   :type '(choice (const default)

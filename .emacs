@@ -22,13 +22,11 @@
   "Minor mode for pseudo-structurally editing Lisp code."
   t)
 (require 'parenface)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0)
 (require 'spacemacs-dark-theme)
 (require 'neotree)
 (require 'rainbow-delimiters)
-(global-set-key [f8] 'neotree-toggle)
-(neotree-toggle)
+(global-set-key [f8] 'neotree-show)
+(neotree-show)
 
 ;;;;;;;;;;;;
 ;; Scheme 
@@ -43,8 +41,8 @@
 (defun scheme-proc ()
   "Return the current Scheme process, starting one if necessary."
   (unless (and scheme-buffer
-        (get-buffer scheme-buffer)
-        (comint-check-proc scheme-buffer))
+               (get-buffer scheme-buffer)
+               (comint-check-proc scheme-buffer))
     (save-window-excursion
       (run-scheme scheme-program-name)))
   (or (scheme-get-process)
@@ -86,7 +84,7 @@
 (add-hook 'scheme-mode-hook
           (lambda ()
             (paredit-mode 1)
-			(rainbow-delimiters-mode)
+            (rainbow-delimiters-mode)
             (load-file "~/.emacs.d/scheme/chezscheme-keywords.el")
             (define-key scheme-mode-map (kbd "<f5>") 'scheme-send-file-split-window)
             (define-key scheme-mode-map (kbd "<f7>") 'scheme-send-last-sexp-split-window)
@@ -98,18 +96,26 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
- '(package-selected-packages (quote (neotree paredit chezscheme company)))
+ '(custom-safe-themes
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(package-selected-packages '(neotree paredit chezscheme company))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
+(load-theme 'spacemacs-dark)
 (global-linum-mode t)
 (cond
  ((string-equal system-type "darwin")
-  (toggle-frame-fullscreen) (set-fontset-font "fontset-default" 'han "Monaco" nil 'prepend))
- (t (toggle-frame-maximized) (set-fontset-font "fontset-default" 'han "Microsoft YaHei" nil 'prepend)))
-(custom-set-faces
+  (toggle-frame-fullscreen) ;;(set-fontset-font "fontset-default" 'han "JetBrains Mono" nil 'prepend)
+  )
+ (t (toggle-frame-maximized) ;;(set-fontset-font "fontset-default" 'han "JetBrains Mono" nil 'prepend)
+    ))
+;; (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro Medium" :foundry "outline" :slant normal :weight normal :height 98 :width normal)))))
+ ;; '(default ((t (:family "JetBrains Mono" :height 138)))))
+
+(set-frame-font "JetBrains Mono 13" nil t)
+(setq-default line-spacing 2)
