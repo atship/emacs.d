@@ -245,7 +245,7 @@ the mode-line format."
   :type 'boolean
   :group 'neotree)
 
-(defcustom neo-autorefresh t
+(defcustom neo-autorefresh nil
   "*If non-nil, the neotree buffer will auto refresh."
   :type 'boolean
   :group 'neotree)
@@ -334,14 +334,14 @@ This variable is used in `neo-vc-for-node' when
   :type '(alist :key-type symbol
                 :value-type character))
 
-(defcustom neo-confirm-change-root 'off-p
+(defcustom neo-confirm-change-root 'yes-or-no-p
   "Confirmation asking for permission to change root if file was not found in root path."
   :type '(choice (function-item :tag "Verbose" yes-or-no-p)
                  (function-item :tag "Succinct" y-or-n-p)
                  (function-item :tag "Off" off-p))
   :group 'neotree-confirmations)
 
-(defcustom neo-confirm-create-file 'off-p
+(defcustom neo-confirm-create-file 'yes-or-no-p
   "Confirmation asking whether *NeoTree* should create a file."
   :type '(choice (function-item :tag "Verbose" yes-or-no-p)
                  (function-item :tag "Succinct" y-or-n-p)
@@ -1264,8 +1264,8 @@ Optional NODE-NAME is used for the `icons' theme"
       (unless (require 'all-the-icons nil 'noerror)
         (error "Package `all-the-icons' isn't installed"))
       (setq-local tab-width 1)
-      (or (and (equal name 'open)  (insert (all-the-icons-icon-for-dir (directory-file-name node-name) "down")))
-          (and (equal name 'close) (insert (all-the-icons-icon-for-dir (directory-file-name node-name) "right")))
+      (or (and (equal name 'open)  (insert (all-the-icons-icon-for-dir-with-chevron (directory-file-name node-name) "down")))
+          (and (equal name 'close) (insert (all-the-icons-icon-for-dir-with-chevron (directory-file-name node-name) "right")))
           (and (equal name 'leaf)  (insert (format "\t\t\t%s\t" (all-the-icons-icon-for-file node-name))))))
      (t
       (or (and (equal name 'open)  (funcall n-insert-symbol "- "))
