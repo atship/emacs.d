@@ -122,3 +122,8 @@
 
 (set-frame-font "JetBrains Mono 13" nil t)
 (setq-default line-spacing 2)
+
+(global-set-key (kbd "C-j")
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
